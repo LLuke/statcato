@@ -1220,7 +1220,7 @@
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="&apos;m&apos;" type="code"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Multinomial Experiements"/>
+                <Property name="text" type="java.lang.String" value="Multinomial Experiments"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="GoodnessOfFitMenuItem1">

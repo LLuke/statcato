@@ -55,7 +55,7 @@ public class AboutDialog extends StatcatoDialog {
         setTitle("About Statcato");
         setMinimumSize(new java.awt.Dimension(600, 400));
 
-        jLabel1.setText("<html> Copyright (C) 2009-2011 Margaret Yau.\n<br><br> This program comes with ABSOLUTELY NO WARRANTY. <br> This is a free software, and you are welcome to redistribute<br>  it under certain conditions.  For details, see the GNU General <br> Public License below.</html>");
+        jLabel1.setText("<html> Copyright (C) 2009-2012 Margaret Yau and contributers. <br> <br> <b>Credits:</b> <br> Margaret Yau: Development lead. <br> Rudolph Esterhuysen: Localization bug fixes.  <br><br> This program comes with ABSOLUTELY NO WARRANTY. <br> This is a free software, and you are welcome to redistribute<br>  it under certain conditions.  For details, see the GNU General <br> Public License below.</html>");
 
         LicTextArea.setColumns(20);
         LicTextArea.setRows(5);
@@ -82,7 +82,7 @@ public class AboutDialog extends StatcatoDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(IconLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(nameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

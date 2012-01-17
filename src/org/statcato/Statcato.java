@@ -54,7 +54,7 @@ import javax.help.*;
  * @since 1.0
  */
 public class Statcato extends javax.swing.JFrame implements ActionListener {
-   public static final String VERSION = "1.0";
+   public static final String VERSION = "1.0.1";
    static final private String NEW = "new";
    static final private String OPEN = "open";
    static final private String PRINT = "print";
@@ -621,11 +621,11 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         DatasheetInternalFrame.getContentPane().setLayout(DatasheetInternalFrameLayout);
         DatasheetInternalFrameLayout.setHorizontalGroup(
             DatasheetInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 654, Short.MAX_VALUE)
+            .addGap(0, 644, Short.MAX_VALUE)
         );
         DatasheetInternalFrameLayout.setVerticalGroup(
             DatasheetInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGap(0, 376, Short.MAX_VALUE)
         );
 
         DatasheetInternalFrame.setBounds(10, 450, 660, 410);
@@ -641,11 +641,11 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         LogInternalFrame.getContentPane().setLayout(LogInternalFrameLayout);
         LogInternalFrameLayout.setHorizontalGroup(
             LogInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LogScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+            .addComponent(LogScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
         );
         LogInternalFrameLayout.setVerticalGroup(
             LogInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LogScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+            .addComponent(LogScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
         );
 
         LogInternalFrame.setBounds(10, 50, 330, 390);
@@ -664,11 +664,11 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         HistoryInternalFrame.getContentPane().setLayout(HistoryInternalFrameLayout);
         HistoryInternalFrameLayout.setHorizontalGroup(
             HistoryInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+            .addComponent(HistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
         );
         HistoryInternalFrameLayout.setVerticalGroup(
             HistoryInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+            .addComponent(HistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
         );
 
         HistoryInternalFrame.setBounds(350, 50, 320, 390);
@@ -684,7 +684,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
             StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
+                .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
                 .addContainerGap())
         );
         StatusPanelLayout.setVerticalGroup(
@@ -692,7 +692,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
             .addGroup(StatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(StatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         StatusPanel.setBounds(0, 870, 680, 100);
@@ -1581,7 +1581,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         StatMenu1.add(CorrRegMenu1);
 
         MultinomialMenu1.setMnemonic('m');
-        MultinomialMenu1.setText("Multinomial Experiements");
+        MultinomialMenu1.setText("Multinomial Experiments");
 
         GoodnessOfFitMenuItem1.setMnemonic('g');
         GoodnessOfFitMenuItem1.setText("Chi-Square Goodness-of-Fit...");

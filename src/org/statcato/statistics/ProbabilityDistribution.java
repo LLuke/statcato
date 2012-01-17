@@ -5,8 +5,11 @@
 
 package org.statcato.statistics;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
- * Abtract base class of different types of
+ * Abstract base class of different types of
  * continuous probability distributions.  Subclasses must implement density and
  * cumulativeProbability methods.
  * 
@@ -25,7 +28,7 @@ public abstract class ProbabilityDistribution {
      */
     public abstract double density(double x);
     
-    /** Returns the cumulative probabililty up to x.
+    /** Returns the cumulative probability up to x.
      * 
      * @param x
      * @return cumulative probability P(<=x)
@@ -82,7 +85,8 @@ public abstract class ProbabilityDistribution {
             tol1=2.0*EPS*Math.abs(b)+0.5*tol;                           // Convergence check.
             xm=0.5*(c-b);
             if (Math.abs(xm) <= tol1 || fb == 0.0) 
-                return Double.parseDouble(String.format("%.4f", b));
+                // round to 4 decimal places
+                return (new BigDecimal(b)).setScale(4, RoundingMode.HALF_UP).doubleValue();
             if (Math.abs(e) >= tol1 && Math.abs(fa) > Math.abs(fb)) {
                 s=fb/fa;                                              // Attempt inverse quadratic interpolation.
                 if (a == c) {

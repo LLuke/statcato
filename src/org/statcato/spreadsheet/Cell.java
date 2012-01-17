@@ -75,12 +75,13 @@ public class Cell {
                 // find the number of decimal places (no more than 6)
                 // needed to represent the number
                 int places = 0;
-                double num2 = num;
-                while ((num2 - Math.floor(num2)) != 0 && places < 6) {
-                    places++;
-                    num2 = num * Math.pow(10, places);
-                }
 
+                int sixPlaces = (int) Math.round((num - Math.floor(num)) * 1000000);
+                while (sixPlaces > 0 && places < 6) {
+                    sixPlaces %= Math.pow(10, 5-places);
+                    places++;
+                }
+                
                 return String.format("%." + places + "f", num);
         }
         return contents; 

@@ -43,7 +43,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="IconLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="112" max="32767" attributes="0"/>
+              <EmptySpace pref="48" max="32767" attributes="0"/>
               <Component id="nameLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -57,7 +57,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt; Copyright (C) 2009-2011 Margaret Yau.&#xa;&lt;br&gt;&lt;br&gt; This program comes with ABSOLUTELY NO WARRANTY. &lt;br&gt; This is a free software, and you are welcome to redistribute&lt;br&gt;  it under certain conditions.  For details, see the GNU General &lt;br&gt; Public License below.&lt;/html&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt; Copyright (C) 2009-2012 Margaret Yau and contributers. &lt;br&gt; &lt;br&gt; &lt;b&gt;Credits:&lt;/b&gt; &lt;br&gt; Margaret Yau: Development lead. &lt;br&gt; Rudolph Esterhuysen: Localization bug fixes.  &lt;br&gt;&lt;br&gt; This program comes with ABSOLUTELY NO WARRANTY. &lt;br&gt; This is a free software, and you are welcome to redistribute&lt;br&gt;  it under certain conditions.  For details, see the GNU General &lt;br&gt; Public License below.&lt;/html&gt;"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
