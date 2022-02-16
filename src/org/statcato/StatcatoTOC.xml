@@ -129,6 +129,7 @@
 
        <tocitem text="Correlation and Regression" target="stat-reg">
            <tocitem text="Linear Two Variables" target="stat-reg-two-variables"/>
+           <tocitem text="Correlation Matrix" target="stat-reg-two-variables-all-pairs"/>
            <tocitem text="Multiple Regression" target="stat-reg-multiple-regression"/>
            <tocitem text="Non-Linear Models" target="stat-reg-nonlinear"/>
            <tocitem text="Spearman's Rank Correlation" target="stat-nonparam-rank-correlation"/>
@@ -165,6 +166,7 @@
            <tocitem text="Pie Chart" target="graph-piechart"/>
            <tocitem text="Scatterplot" target="graph-scatterplot"/>
            <tocitem text="Stem-and-Leaf Plot" target="graph-stemplot"/>
+           <tocitem text="Residual Plot" target="graph-residual"/>
        </tocitem>
 
        <tocitem text="Check for Updates" target="updates" />

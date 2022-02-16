@@ -33,7 +33,7 @@
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="jPanel3" pref="335" max="32767" attributes="1"/>
+                      <Component id="jPanel3" max="32767" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -110,7 +110,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="SampleSizeTextField" alignment="0" min="-2" pref="75" max="-2" attributes="1"/>
+                              <Component id="SampleSizeTextField" linkSize="2" alignment="0" min="-2" pref="75" max="-2" attributes="1"/>
                               <Component id="SampleVarTextField" linkSize="2" alignment="0" min="-2" pref="79" max="-2" attributes="1"/>
                               <Component id="SampleStdevTextField" linkSize="2" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
                           </Group>

@@ -115,17 +115,17 @@ public class PvalueDialog extends StatcatoDialog {
         DOF2Box.setInputVerifier(new DOF2FieldVerifier());
 
         TestStatisticsErrorLabel.setBackground(new java.awt.Color(255, 255, 255));
-        TestStatisticsErrorLabel.setFont(new java.awt.Font("Tahoma", 0, 12));
+        TestStatisticsErrorLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         TestStatisticsErrorLabel.setForeground(new java.awt.Color(255, 0, 0));
         TestStatisticsErrorLabel.setText("Enter a valid number");
 
         DOF1ErrorLabel.setBackground(new java.awt.Color(255, 255, 255));
-        DOF1ErrorLabel.setFont(new java.awt.Font("Tahoma", 0, 12));
+        DOF1ErrorLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         DOF1ErrorLabel.setForeground(new java.awt.Color(255, 0, 0));
         DOF1ErrorLabel.setText("Enter a positive integer");
 
         DOF2ErrorLabel.setBackground(new java.awt.Color(255, 255, 255));
-        DOF2ErrorLabel.setFont(new java.awt.Font("Tahoma", 0, 12));
+        DOF2ErrorLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         DOF2ErrorLabel.setForeground(new java.awt.Color(255, 0, 0));
         DOF2ErrorLabel.setText("Enter a positive integer");
 
@@ -214,7 +214,7 @@ public class PvalueDialog extends StatcatoDialog {
         ResultsPanelLayout.setVerticalGroup(
             ResultsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ResultsPanelLayout.createSequentialGroup()
-                .addComponent(ResultsText, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                .addComponent(ResultsText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -248,7 +248,7 @@ public class PvalueDialog extends StatcatoDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(238, 238, 238)
                         .addComponent(OKButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ClearButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -258,14 +258,14 @@ public class PvalueDialog extends StatcatoDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(InputsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(InputsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ResultsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ClearButton)
-                    .addComponent(OKButton))
-                .addContainerGap())
+                    .addComponent(OKButton)
+                    .addComponent(ClearButton))
+                .addGap(21, 21, 21))
         );
 
         pack();

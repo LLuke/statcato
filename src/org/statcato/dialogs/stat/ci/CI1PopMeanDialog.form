@@ -25,10 +25,6 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel1" min="-2" max="-2" attributes="1"/>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
                       <Component id="OKButton" linkSize="2" min="-2" max="-2" attributes="0"/>
@@ -37,11 +33,14 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel2" max="32767" attributes="1"/>
+                      <Component id="jPanel3" max="32767" attributes="1"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel3" max="32767" attributes="1"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPanel1" alignment="1" max="32767" attributes="1"/>
+                          <Component id="jPanel2" max="32767" attributes="1"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -112,7 +111,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="205" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -181,10 +180,10 @@
                       <Component id="SampleRadioButton" min="-2" max="-2" attributes="0"/>
                       <Component id="InputTextField" alignment="0" min="-2" pref="147" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="53" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="SummaryRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" max="-2" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
@@ -194,9 +193,9 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="SampleSizeTextField" linkSize="1" alignment="0" pref="70" max="32767" attributes="1"/>
-                                      <Component id="SampleMeanTextField" linkSize="1" alignment="0" pref="68" max="32767" attributes="1"/>
-                                      <Component id="sTextField" linkSize="1" alignment="0" min="-2" max="-2" attributes="1"/>
+                                      <Component id="SampleSizeTextField" pref="121" max="32767" attributes="1"/>
+                                      <Component id="SampleMeanTextField" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="sTextField" alignment="0" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="sLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -208,8 +207,8 @@
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel8" min="-2" pref="151" max="-2" attributes="1"/>
-                      <EmptySpace pref="202" max="32767" attributes="0"/>
+                      <Component id="jLabel8" min="-2" pref="209" max="-2" attributes="1"/>
+                      <EmptySpace pref="298" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -245,9 +244,9 @@
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                      <Component id="jLabel8" pref="79" max="32767" attributes="0"/>
+                      <Component id="jLabel8" pref="179" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -309,7 +308,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;Enter valid column names separated by space.&lt;br&gt;&#xa;For a continuous range of columns, separate using dash (e.g. C1-C30).&lt;br&gt;&#xa;&lt;/html&gt;&#xa;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt; Enter valid column names separated by space.&lt;br&gt; For a continuous range of columns, separate using dash (e.g. C1-C30).&lt;br&gt; &lt;/html&gt; "/>
           </Properties>
         </Component>
       </SubComponents>
@@ -333,7 +332,7 @@
                   <Component id="ConfidenceTextField" min="-2" pref="81" max="-2" attributes="0"/>
                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="81" max="32767" attributes="0"/>
+                  <EmptySpace pref="183" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

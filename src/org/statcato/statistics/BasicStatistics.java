@@ -247,6 +247,29 @@ public class BasicStatistics {
     }
     
     /**
+     * Returns the minimum of an ArrayList of numbers.
+     * 
+     * @param numbers ArrayList of doubles
+     * @return minimum value, or null if numbers is empty
+     */
+    public static Double min(ArrayList<Double> numbers) {
+        if (numbers.isEmpty())
+            return null;
+        double min = Double.POSITIVE_INFINITY;
+        for (Iterator e = numbers.iterator(); e.hasNext();) {
+            Double Next = (Double) e.next();
+            if (Next != null) {
+                double next = Next.doubleValue();
+                if (next < min)
+                    min = next;
+            }
+        }
+        if (min == Double.POSITIVE_INFINITY)
+            return null;
+        return min;
+    }
+    
+    /**
      * Returns the minimum of an array of integers (assume array length > 0).
      * 
      * @param numbers array of integers, assumed non-empty
@@ -283,6 +306,29 @@ public class BasicStatistics {
         return max;        
     }
 
+    /**
+     * Returns the maximum of an ArrayList of numbers.
+     * 
+     * @param numbers ArrayList of doubles
+     * @return maximum value, or null if numbers is empty
+     */
+    public static Double max(ArrayList<Double> numbers) {
+        if (numbers.isEmpty())
+            return null;
+        double max = Double.NEGATIVE_INFINITY;
+        for (Iterator e = numbers.iterator(); e.hasNext();) {
+            Double Next = (Double) e.next();
+            if (Next != null) {
+                double next = Next.doubleValue();
+                if (next > max)
+                    max = next;
+            }
+        }
+        if (max == Double.NEGATIVE_INFINITY)
+            return null;
+        return max;
+    }
+    
     /**
      * Returns the maximum of an array of integers (assume array length > 0).
      * 

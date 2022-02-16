@@ -9,6 +9,7 @@ import org.statcato.statistics.StudentTProbabilityDistribution;
 import org.statcato.statistics.BasicStatistics;
 import org.statcato.utils.HelperFunctions;
 import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Linear correlation and regression
@@ -221,6 +222,43 @@ public class CorrelationRegression {
             total += Math.pow(yValue - yR, 2);
         }
         return total;
+    }
+    
+    /**
+     * Returns a list of residual values in order.
+     * 
+     * @return  ArrayList object containing the residuals 
+     */
+    public ArrayList<Double> Residuals() {
+        ArrayList<Double> residualList = new ArrayList<Double>();
+        ArrayList<Double> predictedList = PredictedValues();
+        double yValue, yR;
+
+        for (int i = 0; i < y.size(); ++i) {
+            yR = predictedList.get(i);
+            yValue = (Double)y.elementAt(i).doubleValue();
+            residualList.add(new Double(yValue - yR));
+        }
+        return residualList;
+    }
+    
+    /**
+     * Returns a list of predicated values in order.
+     * 
+     * @return  ArrayList object containing the predicted values 
+     */
+    public ArrayList<Double> PredictedValues() {
+        ArrayList<Double> valueList = new ArrayList<Double>();
+        double xValue, yValue, yR;
+        double b0 = RegressionEqYInt();
+        double b1 = RegressionEqSlope();
+        for (int i = 0; i < y.size(); ++i) {
+            yValue = (Double)y.elementAt(i).doubleValue();
+            xValue = (Double)x.elementAt(i).doubleValue();
+            yR = b0 + b1 * xValue;
+            valueList.add(new Double(yR));
+        }
+        return valueList;
     }
     
     /**

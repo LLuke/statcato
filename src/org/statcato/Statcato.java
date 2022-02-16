@@ -7,6 +7,7 @@
 package org.statcato;
 
 import org.statcato.graph.StatcatoChartFrame;
+import org.statcato.graph.StatcatoMultipleChartFrame;
 import org.statcato.dialogs.calc.probdist.*;
 import org.statcato.dialogs.stat.anova.*;
 import org.statcato.dialogs.stat.multinomial.*;
@@ -45,6 +46,7 @@ import javax.swing.undo.*;
 import javax.swing.event.*;
 import javax.help.*;
 
+
 /**
  * Statcato main class.  Application frame contains menu, toolbar,
  * and two internal frames.  Handles actions performed on these components.
@@ -54,7 +56,7 @@ import javax.help.*;
  * @since 1.0
  */
 public class Statcato extends javax.swing.JFrame implements ActionListener {
-   public static final String VERSION = "1.0.1";
+   public static final String VERSION = "1.0.2";
    static final private String NEW = "new";
    static final private String OPEN = "open";
    static final private String PRINT = "print";
@@ -143,6 +145,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
     private ColumnStatisticsDialog columnStatisticsDialog;
     private ContingencyTableDialog contingencyTableDialog;
     private CorrelationRegressionDialog correlationRegressionDialog;
+    private CorrelationMatrixDialog correlationRegressionAllPairsDialog;
     private DescriptiveStatisticsDialog descriptiveStatisticsDialog;
     private GoodnessOfFitDialog goodnessOfFitDialog;
     private HyTest1PopMeanDialog hyTest1PopMeanDialog;
@@ -197,7 +200,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
     private IconRedoAction iconRedoAction;
 
     // list of windows and corresponding menu items
-    private ArrayList<StatcatoChartFrame> windowFrameList;
+    private ArrayList<JFrame> windowFrameList;
     private ArrayList<StatcatoChartMenuItem> windowMenuList;
 
     // status timers
@@ -569,6 +572,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         ConclusionMenuItem = new javax.swing.JMenuItem();
         CorrRegMenu1 = new javax.swing.JMenu();
         TwoVarMenuItem1 = new javax.swing.JMenuItem();
+        TwoVarAllPairsMenuItem1 = new javax.swing.JMenuItem();
         MultipleMenuItem1 = new javax.swing.JMenuItem();
         NonLinMenuItem = new javax.swing.JMenuItem();
         RankCorrelationMenuItem2 = new javax.swing.JMenuItem();
@@ -596,6 +600,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         PieChartMenuItem1 = new javax.swing.JMenuItem();
         ScatterplotMenuItem1 = new javax.swing.JMenuItem();
         StemLeafPlotMenuItem = new javax.swing.JMenuItem();
+        ResidualPlotMenuItem = new javax.swing.JMenuItem();
         WindowMenu = new javax.swing.JMenu();
         LogMenuItem = new javax.swing.JMenuItem();
         DatasheetMenuItem = new javax.swing.JMenuItem();
@@ -621,11 +626,11 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         DatasheetInternalFrame.getContentPane().setLayout(DatasheetInternalFrameLayout);
         DatasheetInternalFrameLayout.setHorizontalGroup(
             DatasheetInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 644, Short.MAX_VALUE)
+            .addGap(0, 636, Short.MAX_VALUE)
         );
         DatasheetInternalFrameLayout.setVerticalGroup(
             DatasheetInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGap(0, 364, Short.MAX_VALUE)
         );
 
         DatasheetInternalFrame.setBounds(10, 450, 660, 410);
@@ -641,11 +646,11 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         LogInternalFrame.getContentPane().setLayout(LogInternalFrameLayout);
         LogInternalFrameLayout.setHorizontalGroup(
             LogInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LogScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+            .addComponent(LogScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
         );
         LogInternalFrameLayout.setVerticalGroup(
             LogInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LogScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+            .addComponent(LogScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
         );
 
         LogInternalFrame.setBounds(10, 50, 330, 390);
@@ -664,11 +669,11 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         HistoryInternalFrame.getContentPane().setLayout(HistoryInternalFrameLayout);
         HistoryInternalFrameLayout.setHorizontalGroup(
             HistoryInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+            .addComponent(HistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
         );
         HistoryInternalFrameLayout.setVerticalGroup(
             HistoryInternalFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+            .addComponent(HistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
         );
 
         HistoryInternalFrame.setBounds(350, 50, 320, 390);
@@ -684,7 +689,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
             StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
+                .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                 .addContainerGap())
         );
         StatusPanelLayout.setVerticalGroup(
@@ -692,7 +697,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
             .addGroup(StatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(StatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         StatusPanel.setBounds(0, 870, 680, 100);
@@ -1551,6 +1556,15 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         });
         CorrRegMenu1.add(TwoVarMenuItem1);
 
+        TwoVarAllPairsMenuItem1.setMnemonic('a');
+        TwoVarAllPairsMenuItem1.setText("Correlation Matrix");
+        TwoVarAllPairsMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TwoVarAllPairsMenuItem1ActionPerformed(evt);
+            }
+        });
+        CorrRegMenu1.add(TwoVarAllPairsMenuItem1);
+
         MultipleMenuItem1.setMnemonic('m');
         MultipleMenuItem1.setText("Multiple Regression...");
         MultipleMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -1779,6 +1793,15 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         });
         GraphMenu1.add(StemLeafPlotMenuItem);
 
+        ResidualPlotMenuItem.setMnemonic('r');
+        ResidualPlotMenuItem.setText("Residual Plot...");
+        ResidualPlotMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ResidualPlotMenuItemActionPerformed(evt);
+            }
+        });
+        GraphMenu1.add(ResidualPlotMenuItem);
+
         MainMenuBar1.add(GraphMenu1);
 
         WindowMenu.setMnemonic('w');
@@ -1857,11 +1880,11 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(StatcatoDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+            .addComponent(StatcatoDesktopPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(StatcatoDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
+            .addComponent(StatcatoDesktopPane)
         );
 
         pack();
@@ -2328,8 +2351,9 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_CloseProjMenuItemActionPerformed
 
     private void EditLastDialogMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditLastDialogMenuItemActionPerformed
-        if (lastDialog != null)
+        if (lastDialog != null) {
             lastDialog.setVisible(true);
+        }
     }//GEN-LAST:event_EditLastDialogMenuItemActionPerformed
 
     private void EditMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditMenu1ActionPerformed
@@ -2401,6 +2425,15 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
     private void TransposeMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TransposeMenuItem1ActionPerformed
         displayDialog(transposeDialog);
 }//GEN-LAST:event_TransposeMenuItem1ActionPerformed
+
+    private void TwoVarAllPairsMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TwoVarAllPairsMenuItem1ActionPerformed
+        displayDialog(correlationRegressionAllPairsDialog);
+    }//GEN-LAST:event_TwoVarAllPairsMenuItem1ActionPerformed
+
+    private void ResidualPlotMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResidualPlotMenuItemActionPerformed
+        correlationRegressionDialog.selectResidualCheckBox();
+        displayDialog(correlationRegressionDialog);
+    }//GEN-LAST:event_ResidualPlotMenuItemActionPerformed
    
     /**
      * Shows the dialog history frame.
@@ -2579,7 +2612,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
 
         // initializes lists that keep track of window frames and corresponding
         // menus
-        windowFrameList = new ArrayList<StatcatoChartFrame>();
+        windowFrameList = new ArrayList<JFrame>();
         windowMenuList = new ArrayList<StatcatoChartMenuItem>();
 
         // initializes lists for keeping track of timers for setting status
@@ -2592,7 +2625,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
      *
      * @param frame StatcatoChartFrame instance to be added
      */
-    public void addWindowFrame(StatcatoChartFrame frame) {
+    public void addWindowFrame(JFrame frame) {
         windowFrameList.add(frame);
         // add a new menu item
         StatcatoChartMenuItem item =
@@ -2601,7 +2634,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         WindowMenu.add(item);
     }
 
-    public ArrayList<StatcatoChartFrame> getChartFrames() {
+    public ArrayList<JFrame> getChartFrames() {
         return windowFrameList;
     }
 
@@ -2609,14 +2642,24 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
      * Removes the given frame from the list of window frames.   Removes
      * the corresponding menu item from the window menu.
      *
-     * @param frame StatcatoChartFrame instance to be removed
+     * @param frame JFrame instance to be removed
      */
-    public void removeWindowFrame(StatcatoChartFrame frame) {
-        int index = windowFrameList.indexOf(frame);
-        windowFrameList.remove(index);
-        StatcatoChartMenuItem item = windowMenuList.get(index);
-        windowMenuList.remove(index);
-        WindowMenu.remove(item);
+    public void removeWindowFrame(JFrame frame) {
+        int index = -1;
+        if (frame instanceof StatcatoChartFrame) {
+            index = windowFrameList.indexOf((StatcatoChartFrame)frame);
+        }
+        else if (frame instanceof StatcatoMultipleChartFrame) {
+            index = windowFrameList.indexOf((StatcatoMultipleChartFrame)frame);
+        }
+        if (index < 0) {
+            System.err.println("Statcato.java: failed to remove window frame");
+        } else {
+            windowFrameList.remove(index);
+            StatcatoChartMenuItem item = windowMenuList.get(index);
+            windowMenuList.remove(index);
+            WindowMenu.remove(item);
+        }
     }
 
     /**
@@ -2624,9 +2667,9 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
      * all frames.
      */
     public void removeChartFrames() {
-        Iterator<StatcatoChartFrame> it = windowFrameList.iterator();
+        Iterator<JFrame> it = windowFrameList.iterator();
         while (it.hasNext()) {
-            StatcatoChartFrame frame = it.next();
+            JFrame frame = it.next();
             removeWindowFrame(frame);          
             frame.dispose();
             it = windowFrameList.iterator();
@@ -2735,6 +2778,8 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
         contingencyTableDialog.setLocationRelativeTo(this);
         correlationRegressionDialog = new CorrelationRegressionDialog(this, true, this);
         correlationRegressionDialog.setLocationRelativeTo(this);
+        correlationRegressionAllPairsDialog = new CorrelationMatrixDialog(this, true, this);
+        correlationRegressionAllPairsDialog.setLocationRelativeTo(this);
         descriptiveStatisticsDialog = new DescriptiveStatisticsDialog(this, true, this);
         descriptiveStatisticsDialog.setLocationRelativeTo(this);
         goodnessOfFitDialog = new GoodnessOfFitDialog(this, true, this);
@@ -3367,6 +3412,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JMenuItem RankCorrelationMenuItem2;
     private javax.swing.JMenuItem RankMenuItem1;
     private javax.swing.JMenuItem RedoMenuItem;
+    private javax.swing.JMenuItem ResidualPlotMenuItem;
     private javax.swing.JMenuItem RowStatMenuItem1;
     private javax.swing.JMenuItem RunsTestMenuItem;
     private javax.swing.JMenuItem SampleFromColumnMenuItem;
@@ -3392,6 +3438,7 @@ public class Statcato extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JMenuItem TwoPopMeanMenuItem1;
     private javax.swing.JMenuItem TwoPopPropMenuItem1;
     private javax.swing.JMenuItem TwoPopVarMenuItem1;
+    private javax.swing.JMenuItem TwoVarAllPairsMenuItem1;
     private javax.swing.JMenuItem TwoVarMenuItem1;
     private javax.swing.JMenuItem UndoMenuItem;
     private javax.swing.JMenuItem UniformMenuItem1;

@@ -10,6 +10,7 @@ import org.statcato.spreadsheet.*;
 import org.statcato.utils.HelperFunctions;
 import org.statcato.utils.SetProjectAutoSaveTimer;
 import org.statcato.graph.StatcatoChartFrame;
+import org.statcato.graph.StatcatoMultipleChartFrame;
 
 import org.jfree.chart.JFreeChart;
 
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 
 
 /**
@@ -141,13 +143,15 @@ public class Project {
                                 "The specified file already exists.  Overwrite existing file?",
                                 "Overwrite file?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
                                 null, options, options[1]);
-                    if (choice != 0)   // don't overwrite
+                    if (choice != 0)  { // don't overwrite
                         return false;
+                    }
                 }
 
                 boolean success = writeFileHelper(path, false);
-                if (!success)
+                if (!success) {
                     return false;
+                }
                 savedFile = file;
                 return true;
             }
@@ -189,9 +193,9 @@ public class Project {
                     }
 
                     int end = htmlSource.indexOf("</body>");
-                    if (end == -1)
+                    if (end == -1) {
                         end = htmlSource.length();
-                    
+                    }
                     htmlSource = htmlSource.substring(0, end);
                 }
 
@@ -206,9 +210,11 @@ public class Project {
                 FileOutputStream fos = new FileOutputStream(path);
                 GZIPOutputStream gz = new GZIPOutputStream(fos);
                 ObjectOutputStream oos = new ObjectOutputStream(gz);
-                oos.writeObject(htmlSource2);
+                oos.writeObject(htmlSource);
                 // reset modified status of log 
-                if (!autoSave) Log.setUnchangedStatus();
+                if (!autoSave) {
+                    Log.setUnchangedStatus();
+                }
                 
                 // write the number of datasheets
                 int count = DatasheetPane.getTabCount();
@@ -226,9 +232,10 @@ public class Project {
                             ((SpreadsheetModel)s.getModel()).getTabDelimitedValues());
                 }
 
-                if (!autoSave)
+                if (!autoSave) {
                     DatasheetPane.resetTabTitles();
-         
+                }
+                
                 count = app.getChartFrames().size();
                 if (count != 0) {
                      // write the number of chart objects
@@ -236,15 +243,40 @@ public class Project {
 
                     // write chart objects
                     for (int i = 0; i < count; ++i) {
-                        String title = app.getChartFrames().get(i).getChartTitle();
-                        JFreeChart chart = app.getChartFrames().get(i).getChart();
-                        try {
-                            oos.writeObject(title);
-                            oos.writeObject(chart);
+                        JFrame frame = app.getChartFrames().get(i);
+                        if (frame instanceof StatcatoChartFrame) {
+                            StatcatoChartFrame chartFrame = 
+                                    (StatcatoChartFrame) frame;
+                            String title = chartFrame.getChartTitle();
+                            JFreeChart chart = chartFrame.getChart();
+                            try {
+                                oos.writeObject(title);
+                                oos.writeObject("s"); // 's' to indicate single chart frame
+                                oos.writeObject(chart);
+                            }
+                            catch (IOException e) {
+                                System.err.println("fail to write StatcatoChartFrame");
+                                return false;
+                            }
                         }
-                        catch (IOException e) {
-                            e.printStackTrace();
-                            return false;
+                        else if (frame instanceof StatcatoMultipleChartFrame) {
+                            StatcatoMultipleChartFrame chartFrame = 
+                                    (StatcatoMultipleChartFrame) frame;
+                            String title = chartFrame.getChartTitle();
+                            ArrayList<JFreeChart> charts = chartFrame.getCharts();
+                            try {
+                                oos.writeObject(title);
+                                // 'm' to indicate multiple chart frame,
+                                // followed by the number of charts in the frame
+                                oos.writeObject("m" + charts.size());
+                                for (int j = 0; j < charts.size(); ++j) {
+                                    oos.writeObject(charts.get(j));
+                                }
+                            }
+                            catch (IOException e) {
+                                System.err.println("fail to write StatcatoMultipleChartFrame");
+                                return false;
+                            }
                         }
                     }
                 }
@@ -282,8 +314,9 @@ public class Project {
      * @return name, or empty string if this project has no name
      */
     public String getName() {
-        if (savedFile == null)
+        if (savedFile == null) {
             return "";
+        }
         return savedFile.getName();
     }
     
@@ -307,17 +340,18 @@ public class Project {
             if (o instanceof String) {
                 htmlSource = (String)o;
             }
-            else
+            else {
                 return false;
-
+            }
             // read datasheets
             int count;
             o = ois.readObject();
             if (o instanceof Integer) {
                 count = ((Integer)o).intValue();
             }
-            else
+            else {
                 return false;
+            }
             
             String[] sheets = new String[count];
             for (int i = 0; i < count; ++i) {
@@ -326,16 +360,15 @@ public class Project {
                     String s = (String) o;
                     sheets[i] = s;
                 }
-                else
+                else {
                     return false;
+                }
             }
 
          
             // read chart titles and objects
-            ArrayList<String> titles = new ArrayList<String>();
-            ArrayList<JFreeChart> charts =
-                    new ArrayList<JFreeChart>();
-
+            ArrayList<JFrame> frames = new ArrayList<JFrame>();
+            
             int countCharts = 0;
 
            try {
@@ -350,12 +383,13 @@ public class Project {
                         return false;
                     }
 
-                    for (int i = 0; i < countCharts; ++i) {
+                    for (int i = 0; i < countCharts; ++i) {    
+                        String title;
                         // read chart title
                         try {
                             o = ois.readObject();
                             if (o instanceof String) {
-                                titles.add((String) o);
+                                title = (String) o;
                             }
                             else {
                                 System.err.println("not a chart title");
@@ -366,23 +400,61 @@ public class Project {
                             System.err.println("failed to read chart title");
                             return false;
                         }
-
+                        // read chart type indicator 's' or 'mx', where x is 
+                        // the number of charts 
                         try {
                             o = ois.readObject();
-
-                            if (o instanceof JFreeChart) {
-
-                                charts.add((JFreeChart)o);
+                            if (o instanceof String) {
+                                String type = (String) o;
+                                if (type.startsWith("s")) { // single chart
+                                    try {
+                                        o = ois.readObject();
+                                        if (o instanceof JFreeChart) {
+                                            frames.add(new StatcatoChartFrame(
+                                                    title, (JFreeChart) o, app));
+                                        }
+                                        else {
+                                            System.err.println("not a chart object");
+                                            return false;
+                                        }
+                                    }
+                                    catch (IOException ex) {
+                                        System.err.println("failed to read chart object");
+                                        return false;
+                                    }
+                                }
+                                else { // multiple charts
+                                    int chartCount = Integer.parseInt(type.substring(1));
+                                    ArrayList<JFreeChart> charts = 
+                                                new ArrayList<JFreeChart>();
+                                    for (int k = 0; k < chartCount; ++k) {                             
+                                        try {
+                                            o = ois.readObject();
+                                            if (o instanceof JFreeChart) {
+                                                charts.add((JFreeChart) o);
+                                            }
+                                            else {
+                                                System.err.println("not a chart object");
+                                                return false;
+                                            }
+                                        }
+                                        catch (IOException ex) {
+                                            System.err.println("failed to read chart object");
+                                            return false;
+                                        }
+                                    }
+                                    frames.add(new StatcatoMultipleChartFrame(title, charts, app));                                
+                                }
                             }
                             else {
-                                System.err.println("not a chart object");
+                                System.err.println("not a chart type indicator");
                                 return false;
                             }
                         }
                         catch (IOException ex) {
-                            System.err.println("failed to read chart object");
+                            System.err.println("failed to read chart type indicator");
                             return false;
-                        }
+                        }    
                     }
                }
            }
@@ -403,10 +475,10 @@ public class Project {
                     DatasheetPane.addDatasheet(sheets[i], null);
                 }
 
-                // restore chart frame
-                for (int i = 0; i < countCharts; ++i) {
-                    StatcatoChartFrame frame =
-                            new StatcatoChartFrame(titles.get(i), charts.get(i), app);
+                // restore chart frames
+                for (int i = 0; i < frames.size(); ++i) {
+                    JFrame frame = frames.get(i);
+                    app.addWindowFrame(frame);
                     frame.pack();
                     frame.setVisible(true);
                 }
@@ -445,8 +517,9 @@ public class Project {
             }
             if (choice == 0) {
                 // save and clear log
-                if (!writeToFile(false))
+                if (!writeToFile(false)) {
                         return false;   // save was not successful
+                }
             }           
         }
         
@@ -463,7 +536,8 @@ public class Project {
      * Deletes temporary file if it exists.
      */
     public void exit() {
-        if (DELETEAUTOSAVEFILE)
+        if (DELETEAUTOSAVEFILE) {
             tempFile.delete();
+        }
     }
 }

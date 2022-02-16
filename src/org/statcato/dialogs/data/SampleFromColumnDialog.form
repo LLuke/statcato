@@ -29,8 +29,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jPanel3" alignment="0" max="32767" attributes="1"/>
-                          <Component id="jPanel2" alignment="0" pref="377" max="32767" attributes="1"/>
                           <Component id="jPanel1" alignment="0" max="32767" attributes="1"/>
+                          <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="1"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -58,7 +58,7 @@
                   <Component id="OKButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="CancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="44" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -97,7 +97,7 @@
                   <Component id="jLabel2" min="-2" max="-2" attributes="1"/>
                   <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                   <Component id="ColumnComboBox" min="-2" pref="117" max="-2" attributes="1"/>
-                  <EmptySpace pref="50" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -154,7 +154,7 @@
                       </Group>
                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="1"/>
                   </Group>
-                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                  <EmptySpace pref="36" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -217,7 +217,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="SeedTextField" linkSize="2" alignment="0" pref="68" max="32767" attributes="0"/>
+                              <Component id="SeedTextField" linkSize="2" alignment="0" max="32767" attributes="0"/>
                               <Component id="nTextField" linkSize="2" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
                           </Group>
                       </Group>

@@ -7,6 +7,7 @@
 package org.statcato.dialogs.stat.correg;
 
 import org.statcato.graph.StatcatoChartFrame;
+import org.statcato.graph.StatcatoMultipleChartFrame;
 import org.statcato.*;
 import org.statcato.spreadsheet.*;
 import org.statcato.utils.HelperFunctions;
@@ -16,9 +17,14 @@ import org.statcato.graph.GraphFactory;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.chart.*;
+import org.jfree.data.statistics.HistogramDataset;
 
 import java.util.*;
 import javax.swing.*;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.TickUnits;
+import org.jfree.data.statistics.HistogramType;
+import org.statcato.statistics.BasicStatistics;
 
 /**
  * A dialog for linear correlation and regression between two variables.
@@ -35,7 +41,8 @@ import javax.swing.*;
  * @since 1.0
  */
 public class CorrelationRegressionDialog extends StatcatoDialog {
-
+    private static int HISTOGRAM_NUM_BINS = 10;
+    
     /** Creates new form CorrelationRegressionDialog */
     public CorrelationRegressionDialog(java.awt.Frame parent, boolean modal,
             Statcato app) {
@@ -78,7 +85,8 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
         ParentSpreadsheet.populateComboBox(YComboBox);
         SeriesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        GraphPanel.setVisible(false);
+        ScatterplotPanel.setVisible(false);
+        ResidualPanel.setVisible(false);
         getRootPane().setDefaultButton(OKButton);
         pack();
     }
@@ -110,7 +118,7 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
         jLabel6 = new javax.swing.JLabel();
         SigTextField = new javax.swing.JTextField();
         GraphCheckBox = new javax.swing.JCheckBox();
-        GraphPanel = new javax.swing.JPanel();
+        ScatterplotPanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         LegendCheckBox = new javax.swing.JCheckBox();
@@ -119,6 +127,13 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
         XTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         LineCheckBox = new javax.swing.JCheckBox();
+        ResidualCheckBox = new javax.swing.JCheckBox();
+        ResidualPanel = new javax.swing.JPanel();
+        ResidualVsXCheckBox = new javax.swing.JCheckBox();
+        ResidualVsPredictedCheckBox = new javax.swing.JCheckBox();
+        NormalResidualPlotCheckBox = new javax.swing.JCheckBox();
+        HistogramResidualCheckBox = new javax.swing.JCheckBox();
+        ResidualsVsOrderCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Linear Correlation and Regression");
@@ -139,7 +154,7 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Inputs"));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Independent/dependent variable series");
 
         SeriesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -216,7 +231,7 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
                                     .addComponent(AddButton)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel2))))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -226,7 +241,7 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ClearButton1)
-                .addContainerGap(217, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,7 +251,7 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(XComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -254,7 +269,7 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
                     .addComponent(RemoveButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ClearButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Significance"));
@@ -272,7 +287,7 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SigTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,7 +306,7 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
             }
         });
 
-        GraphPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph Options"));
+        ScatterplotPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Scatterplot Options"));
 
         jLabel7.setText("Plot Title:");
 
@@ -311,40 +326,40 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
         LineCheckBox.setSelected(true);
         LineCheckBox.setText("Show regression line");
 
-        javax.swing.GroupLayout GraphPanelLayout = new javax.swing.GroupLayout(GraphPanel);
-        GraphPanel.setLayout(GraphPanelLayout);
-        GraphPanelLayout.setHorizontalGroup(
-            GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(GraphPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout ScatterplotPanelLayout = new javax.swing.GroupLayout(ScatterplotPanel);
+        ScatterplotPanel.setLayout(ScatterplotPanelLayout);
+        ScatterplotPanelLayout.setHorizontalGroup(
+            ScatterplotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ScatterplotPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ScatterplotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(LineCheckBox)
                     .addComponent(LegendCheckBox)
-                    .addGroup(GraphPanelLayout.createSequentialGroup()
-                        .addGroup(GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ScatterplotPanelLayout.createSequentialGroup()
+                        .addGroup(ScatterplotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel7))
                         .addGap(18, 18, 18)
-                        .addGroup(GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TitleTextField)
+                        .addGroup(ScatterplotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(TitleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                             .addComponent(XTextField)
-                            .addComponent(YTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)))
+                            .addComponent(YTextField)))
                     .addComponent(jLabel8))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        GraphPanelLayout.setVerticalGroup(
-            GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(GraphPanelLayout.createSequentialGroup()
+        ScatterplotPanelLayout.setVerticalGroup(
+            ScatterplotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ScatterplotPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(ScatterplotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(XTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(ScatterplotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(YTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(GraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(ScatterplotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(TitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -354,6 +369,55 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
+        ResidualCheckBox.setText("Show Residual Plots");
+        ResidualCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ResidualCheckBoxStateChanged(evt);
+            }
+        });
+
+        ResidualPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Residual Plot Options"));
+
+        ResidualVsXCheckBox.setText("Residuals vs. X Variable");
+
+        ResidualVsPredictedCheckBox.setSelected(true);
+        ResidualVsPredictedCheckBox.setText("Residuals vs. Predicted (Fitted) Values");
+
+        NormalResidualPlotCheckBox.setText("Normal Probability Plot of Residuals");
+
+        HistogramResidualCheckBox.setText("Histogram of Residuals");
+
+        ResidualsVsOrderCheckBox.setText("Residuals vs. Observation Order");
+
+        javax.swing.GroupLayout ResidualPanelLayout = new javax.swing.GroupLayout(ResidualPanel);
+        ResidualPanel.setLayout(ResidualPanelLayout);
+        ResidualPanelLayout.setHorizontalGroup(
+            ResidualPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ResidualPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ResidualPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ResidualVsXCheckBox)
+                    .addComponent(ResidualVsPredictedCheckBox)
+                    .addComponent(NormalResidualPlotCheckBox)
+                    .addComponent(HistogramResidualCheckBox)
+                    .addComponent(ResidualsVsOrderCheckBox))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        ResidualPanelLayout.setVerticalGroup(
+            ResidualPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ResidualPanelLayout.createSequentialGroup()
+                .addComponent(ResidualVsXCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ResidualVsPredictedCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NormalResidualPlotCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(HistogramResidualCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ResidualsVsOrderCheckBox)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -361,24 +425,30 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(GraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(GraphCheckBox)))
+                                    .addComponent(GraphCheckBox)
+                                    .addComponent(ResidualCheckBox))
+                                .addGap(19, 19, 19))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(46, 46, 46)
-                                .addComponent(OKButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(CancelButton)))
-                        .addContainerGap())
+                                .addComponent(ScatterplotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(319, 319, 319))))
+                        .addComponent(ResidualPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(279, 279, 279)
+                .addComponent(OKButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CancelButton)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {CancelButton, OKButton});
@@ -386,20 +456,24 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(GraphCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(GraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(OKButton)
-                            .addComponent(CancelButton)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                        .addComponent(ScatterplotPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ResidualCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ResidualPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 22, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(OKButton)
+                    .addComponent(CancelButton)))
         );
 
         pack();
@@ -431,15 +505,17 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
         heading += "  Significance level = " + significance;
 
         XYSeriesCollection seriesCollection = new XYSeriesCollection();
-        double min = 0, max = 0;
+        double min = Double.POSITIVE_INFINITY, max = Double.NEGATIVE_INFINITY;
 
         for (int i = 0; i < SeriesList.getModel().getSize(); ++i) {
             String xy = (String) SeriesList.getModel().getElementAt(i);
             text += "--------------------------<br>";
             text += "Series: " + xy + "<br>";
             String[] items = xy.split(",");
-            text += "x = " + items[0] + "<br>";
-            text += "y = " + items[1] + "<br>";
+            String itemX = items[0], itemY = items[1];
+            
+            text += "x = " + itemX + "<br>";
+            text += "y = " + itemY + "<br>";
             int selectedXColumn = ParentSpreadsheet.parseColumnNumber(items[0]);
             int selectedYColumn = ParentSpreadsheet.parseColumnNumber(items[1]);
 
@@ -478,21 +554,210 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
                             XColumnVector, YColumnVector, significance);
                     text += CG + "</td>";
 
-            // create new series
+            app.addLogParagraph(heading, text);
+            
+            // compute predicted values and residuals
+            ArrayList<Double> predictedValues = CG.PredictedValues();
+            ArrayList<Double> residuals = CG.Residuals();
+            
+            // create new series for graphing
             XYSeries series = new XYSeries(xy);
+            XYSeries residualsVsXSeries = 
+                    new XYSeries("Residuals vs. " + itemX);
+            XYSeries residualsVsOrder = 
+                    new XYSeries("Residuals vs. Observation Order");
+            double seriesMin = Double.POSITIVE_INFINITY, 
+                    seriesMax = Double.NEGATIVE_INFINITY;
             for (int j = 0; j < XColumnVector.size(); ++j) {
                 double x = XColumnVector.elementAt(j).doubleValue();
-                if (x < min)
+                if (x < min) {
                     min = x;
-                if (x > max)
+                }
+                if (x < seriesMin) {
+                    seriesMin = x;
+                }
+                if (x > max) {
                     max = x;
+                }
+                if (x > seriesMax) {
+                    seriesMax = x;
+                }
                 series.add(x,
                         YColumnVector.elementAt(j).doubleValue());
+                residualsVsXSeries.add(x,
+                        residuals.get(j));
+                residualsVsOrder.add(j + 1, residuals.get(j));
             }
             seriesCollection.addSeries(series);
-        }
-     
-        app.addLogParagraph(heading, text);
+            
+            // create series for residual plots
+            XYSeries residualsVsPredictedSeries = 
+                    new XYSeries("Residuals vs. Predicted " + itemY);
+            double predictedMin = Double.POSITIVE_INFINITY, 
+                    predictedMax = Double.NEGATIVE_INFINITY;
+            for (int j = 0; j < predictedValues.size(); ++j) {
+                double predicted = predictedValues.get(j);
+                if (predicted < predictedMin) {
+                    predictedMin = predicted;
+                }
+                if (predicted > predictedMax) {
+                    predictedMax = predicted;
+                }
+                    residualsVsPredictedSeries.add(
+                        predicted,
+                        residuals.get(j));
+            }
+            
+            // create residual plot(s)
+            ArrayList<JFreeChart> chartList = new ArrayList<JFreeChart>();
+            
+            if (ResidualVsXCheckBox.isSelected()) {
+                // residuals vs. X plot
+                XYSeriesCollection residualSeriesCollection
+                        = new XYSeriesCollection();
+                residualSeriesCollection.addSeries(residualsVsXSeries);
+                JFreeChart residualVsXChart = GraphFactory.createResidualPlot(
+                        residualSeriesCollection, 
+                        "Residuals vs. " + itemX, 
+                        itemX, 
+                        "Residuals", 
+                        false, 
+                        true,
+                        seriesMin, 
+                        seriesMax);      
+                chartList.add(residualVsXChart);
+                /*
+                StatcatoChartFrame frame = 
+                        new StatcatoChartFrame("Residuals vs. " + itemX, 
+                        residualVsXChart, app);
+                frame.pack();
+                frame.setVisible(true);
+                * */
+            }
+            
+            if (ResidualVsPredictedCheckBox.isSelected()) {
+                // residuals vs. predicated values
+                XYSeriesCollection residualSeriesCollection
+                        = new XYSeriesCollection();
+                residualSeriesCollection.addSeries(residualsVsPredictedSeries);
+                JFreeChart residualVsXChart = GraphFactory.createResidualPlot(
+                        residualSeriesCollection, 
+                        "Residuals vs. Predicted (" + itemY + ")", 
+                        "Predicted Values (" + itemY + ")", 
+                        "Residuals", 
+                        false, 
+                        true,
+                        predictedMin, 
+                        predictedMax);        
+                chartList.add(residualVsXChart);
+                /*
+                StatcatoChartFrame frame = 
+                        new StatcatoChartFrame("Residuals vs. Predicted " + itemY, 
+                        residualVsXChart, app);
+                frame.pack();
+                frame.setVisible(true);
+                * */
+            }
+            
+            if (NormalResidualPlotCheckBox.isSelected()) {
+                // normal probability plot of residuals
+                JFreeChart plot = GraphFactory.createNormalQuantilePlot(
+                        residuals, // ArrayList of residuals
+                        "Normal Probability Plot of Residuals (" + itemY + ")", // "title"
+                        "Residual", "Z Score", // x and y axis labels
+                        true,   // residuals on x-axis 
+                        true);  // show regression line
+                chartList.add(plot);
+                /*
+                StatcatoChartFrame frame = 
+                        new StatcatoChartFrame("Normal Plot of Residuals (" + itemY + ")", 
+                        plot, app);
+                frame.pack();
+                frame.setVisible(true);  
+                * */
+            }
+            
+            if (HistogramResidualCheckBox.isSelected()) {
+                // histogram of residuals
+                HistogramDataset dataset = new HistogramDataset();
+                dataset.setType(HistogramType.FREQUENCY);
+                double residualMin = BasicStatistics.min(residuals);
+                double residualMax = BasicStatistics.max(residuals);
+                double minBin = residualMin;
+                
+                dataset.addSeries("Residuals", 
+                    HelperFunctions.ConvertDoubleArrayListToArray(residuals), 
+                    HISTOGRAM_NUM_BINS, residualMin, residualMax);
+                
+                // add tick units
+                TickUnits units = new TickUnits(); 
+                for (int k = 0; k < dataset.getSeriesCount(); ++k) {
+                    double width = (dataset.getEndX(k, 0).doubleValue() - 
+                            dataset.getStartX(k, 0).doubleValue());
+                    units.add(new NumberTickUnit(width));
+                }
+            
+                JFreeChart chart = GraphFactory.createHistogram(
+                        "Histogram of Residuals (" + itemY + ")",
+                        "Residuals",    // x-axis label
+                        "Frequency",    // y-axis label
+                        dataset,        // HistrogramDataset
+                        false,          // no legend
+                        units,          
+                        HISTOGRAM_NUM_BINS, // bin size
+                        minBin,    // start of first bin
+                        false,  // whether the tick marks should be displayed in the middle of bins
+                        -1);
+                chartList.add(chart);
+                /*
+                StatcatoChartFrame frame =
+                        new StatcatoChartFrame(
+                        "Histogram of Residuals (" + itemY + ")",
+                        GraphFactory.createHistogram(
+                        "Histogram of Residuals (" + itemY + ")",
+                        "Residuals",    // x-axis label
+                        "Frequency",    // y-axis label
+                        dataset,        // HistrogramDataset
+                        false,          // no legend
+                        units,          
+                        HISTOGRAM_NUM_BINS, // bin size
+                        minBin,    // start of first bin
+                        false,  // whether the tick marks should be displayed in the middle of bins
+                        -1),     // tick mark units of the y-axis
+                        app);
+                
+                frame.pack();
+                frame.setVisible(true); */ 
+            }
+            
+            if (ResidualsVsOrderCheckBox.isSelected()) {
+                // residuals vs. observation order
+                XYSeriesCollection residualSeriesCollection
+                        = new XYSeriesCollection();
+                residualSeriesCollection.addSeries(residualsVsOrder);
+                JFreeChart residualVsOrderChart = GraphFactory.createResidualPlot(
+                        residualSeriesCollection, 
+                        "Residuals (" + itemY + ") vs. Observation Order", // title 
+                        "Observation Order", // x-axis title 
+                        "Residuals", // y-axis title 
+                        false, 
+                        true,
+                        0, 
+                        residuals.size());    
+                chartList.add(residualVsOrderChart);
+                /*
+                StatcatoChartFrame frame = 
+                        new StatcatoChartFrame("Residuals vs. Observation Order", 
+                        residualVsOrderChart, app);
+                frame.pack();
+                frame.setVisible(true);*/
+            }
+            
+            StatcatoMultipleChartFrame chartFrame = 
+                    new StatcatoMultipleChartFrame("Residual Plots", chartList, app);
+            chartFrame.pack();
+            chartFrame.setVisible(true);
+        } // end for
 
         // create scatterplot
         if (GraphCheckBox.isSelected()) {
@@ -509,7 +774,10 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
                     new StatcatoChartFrame(TitleTextField.getText(), chart, app);
             frame.pack();
             frame.setVisible(true);
+            
         }
+        
+        
         
         app.compoundEdit.end();
         app.addCompoundEdit(app.compoundEdit);
@@ -523,13 +791,12 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
 
     private void GraphCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_GraphCheckBoxStateChanged
         if (GraphCheckBox.isSelected()) {
-            GraphPanel.setVisible(true);
-            pack();
+            ScatterplotPanel.setVisible(true);
         }
         else {
-            GraphPanel.setVisible(false);
-            pack();
+            ScatterplotPanel.setVisible(false);
         }
+        pack();
 }//GEN-LAST:event_GraphCheckBoxStateChanged
 
     private void SeriesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_SeriesListValueChanged
@@ -583,18 +850,41 @@ public class CorrelationRegressionDialog extends StatcatoDialog {
     private void ClearButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButton1ActionPerformed
         clearMutableColumnsList(SeriesList);
 }//GEN-LAST:event_ClearButton1ActionPerformed
+
+    private void ResidualCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ResidualCheckBoxStateChanged
+        if (ResidualCheckBox.isSelected()) {
+            ResidualPanel.setVisible(true);
+        }
+        else {
+            ResidualPanel.setVisible(false);
+        }
+        pack();
+    }//GEN-LAST:event_ResidualCheckBoxStateChanged
     
+    /*
+     * Select the residual plot check box
+     */
+    public void selectResidualCheckBox() {
+        ResidualCheckBox.setSelected(true);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
     private javax.swing.JButton CancelButton;
     private javax.swing.JButton ClearButton1;
     private javax.swing.JCheckBox GraphCheckBox;
-    private javax.swing.JPanel GraphPanel;
+    private javax.swing.JCheckBox HistogramResidualCheckBox;
     private javax.swing.JCheckBox LegendCheckBox;
     private javax.swing.JCheckBox LineCheckBox;
+    private javax.swing.JCheckBox NormalResidualPlotCheckBox;
     private javax.swing.JButton OKButton;
     private javax.swing.JButton RemoveButton;
+    private javax.swing.JCheckBox ResidualCheckBox;
+    private javax.swing.JPanel ResidualPanel;
+    private javax.swing.JCheckBox ResidualVsPredictedCheckBox;
+    private javax.swing.JCheckBox ResidualVsXCheckBox;
+    private javax.swing.JCheckBox ResidualsVsOrderCheckBox;
+    private javax.swing.JPanel ScatterplotPanel;
     private javax.swing.JList SeriesList;
     private javax.swing.JTextField SigTextField;
     private javax.swing.JTextField TitleTextField;

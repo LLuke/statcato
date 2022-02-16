@@ -25,6 +25,7 @@
 </indexitem>
 <indexitem text="Correlation and Regression" target="stat-reg">
     <indexitem text="Linear Two Variables" target="stat-reg-two-variables"/>
+    <indexitem text="Correlation Matrix" target="stat-reg-two-variables-all-pairs"/>
     <indexitem text="Multiple Regression" target="stat-reg-multiple-regression"/>
     <indexitem text="Non-Linear Models" target="stat-reg-nonlinear"/>
     <indexitem text="Spearman's Rank Correlation" target="stat-nonparam-rank-correlation"/>
@@ -88,6 +89,7 @@
     <indexitem text="Pie Chart" target="graph-piechart"/>
     <indexitem text="Scatterplot" target="graph-scatterplot"/>
     <indexitem text="Stem-and-Leaf Plot" target="graph-stemplot"/>
+    <indexitem text="Residual Plot" target="graph-residual"/>
 </indexitem>
 <indexitem text="Hypothesis Tests" target="stat-hytest">
     <indexitem text="1-Population Mean" target="stat-hytest-mean"/>

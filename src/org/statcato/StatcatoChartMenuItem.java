@@ -5,7 +5,8 @@
 
 package org.statcato;
 
-import org.statcato.graph.StatcatoChartFrame;
+import java.awt.Frame;
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,19 +20,20 @@ import java.awt.event.ActionListener;
  * @since 1.0
  */
 public class StatcatoChartMenuItem extends JMenuItem {
-    private StatcatoChartFrame frame;
+    private JFrame frame;
 
     /**
      * Constructor.
      *
      * @param title chart title
-     * @param frame StatcatoChartFrame instance
+     * @param frame JFrame instance
      */
-    public StatcatoChartMenuItem(String title, StatcatoChartFrame frame) {
+    public StatcatoChartMenuItem(String title, JFrame frame) {
         super(title);
         this.frame = frame;
         addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent e) {
+           @Override
+            public void actionPerformed(ActionEvent e) {
                menuActionPerformed(e);
            }
         });
@@ -43,6 +45,7 @@ public class StatcatoChartMenuItem extends JMenuItem {
      * @param e ActionEvent
      */
     public void menuActionPerformed(ActionEvent e) {
-        frame.restore();
+        frame.setState(Frame.NORMAL);
+        frame.toFront();
     }
 }

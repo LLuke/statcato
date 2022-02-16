@@ -51,6 +51,20 @@ public class HelperFunctions {
         }
         return arr;
     }
+    
+    /**
+     * Converts an ArrayList of Double values to an array of double values.
+     * 
+     * @param arrayList ArrayList of Double
+     * @return array of double
+     */
+    public static double[] ConvertDoubleArrayListToArray(ArrayList<Double> arrayList) {
+        double[] arr = new double[arrayList.size()];
+        for (int j = 0; j < arr.length; ++j) {
+            arr[j] = arrayList.get(j).doubleValue();
+        }
+        return arr;
+    }
 
     /**
      * Converts a vector of Integer values to an array of integervalues.

@@ -121,14 +121,14 @@ public class StudentTDistributionDialog extends StatcatoDialog {
 
         DOFTextField.setText("1");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Compute:");
 
         InvCumProbRadioButton.setText("Inverse cumulative probability");
 
         CumProbRadioButton.setText("Cumulative probability");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Distribution Parameters:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -182,7 +182,7 @@ public class StudentTDistributionDialog extends StatcatoDialog {
 
         jLabel7.setText("(e.g. C1 for column label, or variable name)");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Input(s):");
 
         ConstRadioButton.setText("Constant:");
@@ -192,7 +192,7 @@ public class StudentTDistributionDialog extends StatcatoDialog {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Store Results in: (optional)");
 
         ColumnRadioButton.setSelected(true);
@@ -260,7 +260,7 @@ public class StudentTDistributionDialog extends StatcatoDialog {
                 .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(15, 15, 15))
             .addGroup(layout.createSequentialGroup()
                 .addGap(103, 103, 103)

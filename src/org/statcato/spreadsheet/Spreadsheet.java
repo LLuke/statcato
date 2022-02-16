@@ -49,6 +49,7 @@ public class Spreadsheet extends JTable implements StateEditable {
         super(new SpreadsheetModel(app));  
         this.app = app;
         initialize();
+        setShowGrid(true);
     }
 
     @Override

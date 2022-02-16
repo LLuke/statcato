@@ -5,24 +5,22 @@
 
 package org.statcato.graph;
 
-import org.statcato.*;
-import org.statcato.utils.HelperFunctions;
-
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.swing.*;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-
-import java.awt.datatransfer.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.Toolkit;
-import java.awt.Frame;
-import javax.swing.*;
-import java.io.IOException;
+import org.statcato.*;
+import org.statcato.utils.HelperFunctions;
 
 /**
  * A frame for graphs.  Contains a menu for common operations. 
@@ -61,7 +59,15 @@ public class StatcatoChartFrame extends ChartFrame implements ActionListener {
       this.title = title;
       this.chart = chart;
       this.parent = parent0;
-      JMenuBar menuBar = new JMenuBar();
+      setupFrame();
+   }
+
+   /**
+    * Helper function for constructor.
+    * Sets up menu bar and frame properties.
+    */
+   private void setupFrame() {
+   JMenuBar menuBar = new JMenuBar();
       JMenu FileMenu = new JMenu("Graph");
       JMenuItem copy = new JMenuItem("Copy Graph to Clipboard");
       FileMenu.add(copy);
@@ -92,10 +98,10 @@ public class StatcatoChartFrame extends ChartFrame implements ActionListener {
       parent.addWindowFrame(this);
 
       addCloseListener();
-
+      
       restore();
    }
-
+   
    /**
     * Adds a listener for the close button.  Prompts to confirm closing
     * a chart.
@@ -105,7 +111,7 @@ public class StatcatoChartFrame extends ChartFrame implements ActionListener {
             @Override
             public void windowClosing(WindowEvent e){
                 Object[] options = {"Confirm", "Cancel"};
-                int choice = JOptionPane.showOptionDialog(parent,
+                int choice = JOptionPane.showOptionDialog(StatcatoChartFrame.this,
                     "Are you sure you want to remove the graph from the project?",
                     "Closing Chart...",
                     JOptionPane.YES_NO_OPTION,
@@ -176,7 +182,9 @@ public class StatcatoChartFrame extends ChartFrame implements ActionListener {
           getChartPanel().doEditChartProperties();
           getChartPanel().repaint();
       }
-      else getChartPanel().actionPerformed(ae);
+      else {
+          getChartPanel().actionPerformed(ae);
+      }
    }
 
    /**

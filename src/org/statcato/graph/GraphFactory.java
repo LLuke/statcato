@@ -9,6 +9,8 @@ import org.statcato.statistics.NormalProbabilityDistribution;
 import org.statcato.statistics.BasicStatistics;
 import org.statcato.statistics.inferential.MultipleRegression;
 import org.statcato.utils.HelperFunctions;
+import org.statcato.graph.ExtendedBoxAndWhiskerToolTipGenerator;
+import org.statcato.graph.ExtendedBoxAndWhiskerRenderer;
 
 import org.jfree.chart.*;
 import org.jfree.chart.plot.*;
@@ -20,9 +22,7 @@ import org.jfree.chart.annotations.XYLineAnnotation;
 import org.jfree.chart.annotations.XYAnnotation;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.labels.ExtendedBoxAndWhiskerToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.renderer.category.ExtendedBoxAndWhiskerRenderer;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import org.jfree.data.statistics.Regression;
 import org.jfree.chart.axis.ValueAxis;
@@ -40,6 +40,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import Jama.Matrix;
 
 import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.Color;
 import java.awt.BasicStroke;
@@ -47,7 +48,7 @@ import java.awt.Font;
 import java.awt.geom.Line2D;
 
 /**
- * Fumnctions for generating graphs.
+ * Functions for generating graphs.
  * 
  * @author  Margaret Yau
  * @version %I%, %G%
@@ -169,6 +170,24 @@ public class GraphFactory {
         }
         
         return plot;
+    }
+    
+    /**
+     * Creates a normal quantile plot.
+     * 
+     * @param YColumnArray  ArrayList of data values
+     * @param title         chart title
+     * @param xLabel        x axis label
+     * @param yLabel        y axis label
+     * @param isDataOnXAxis whether the data is on the x axis
+     * @param showRegressionLine    whether the regression line should be shown
+     * @return JFreeChart plot object
+     */
+    public static JFreeChart createNormalQuantilePlot(ArrayList<Double> YColumnArray,
+            String title, String xLabel, String yLabel,
+            boolean isDataOnXAxis, boolean showRegressionLine) {
+        return createNormalQuantilePlot(new Vector(YColumnArray), title,
+                xLabel, yLabel, isDataOnXAxis, showRegressionLine);
     }
     
     /**
@@ -607,6 +626,40 @@ public class GraphFactory {
             return createScatterplot(seriesCollection, title, xLabel, yLabel,
                 showLegend, REG_NONE, 0, min, max);
     }
+    
+    /**
+     * Creates a residual plot.
+     *
+     * @param seriesCollection  XYSeriesCollection containing the data series
+     *                          Y series contains residuals
+     * @param title             chart title
+     * @param xLabel            x-axis label
+     * @param yLabel            y-axis label
+     * @param showLegend        whether the legend should be shown
+     * @param showZeroHorizon   whether a horizontal line Y = 0 should be shown
+     * @param min               minimum x value
+     * @param max               maximum x value
+     * @return                  JFreeChart residual plot
+     */
+    public static JFreeChart createResidualPlot(XYSeriesCollection seriesCollection,
+            String title, String xLabel, String yLabel,
+            boolean showLegend, boolean showZeroHorizon,
+            double min, double max) {
+
+        JFreeChart chart = createScatterplot(seriesCollection, title, xLabel, yLabel,
+                showLegend, REG_NONE, 0, min, max);
+        
+       if (showZeroHorizon) {
+           // add Y = 0 line to chart
+           XYLineAnnotation line = new XYLineAnnotation(
+                        min, 0,
+                        max, 0,
+                        new BasicStroke(), Color.GRAY);
+                chart.getXYPlot().addAnnotation( (XYAnnotation) line);
+       }
+        
+       return chart;
+    }
 
     /**
      * Creates a bar chart.
@@ -682,7 +735,7 @@ public class GraphFactory {
      * @param minBin    bin size
      * @param minBinStart   the start of the first bin
      * @param center    whether the tick marks should be displayed in the middle of bins
-     * @param yTicks    tick mark units of the x-axis
+     * @param yTicks    tick mark units of the y-axis
      * @return JFreeChart object representing a histogram
      */
     public static JFreeChart createHistogram(

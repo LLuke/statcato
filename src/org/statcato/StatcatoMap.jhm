@@ -98,6 +98,7 @@
     <mapID target="stat-hytest-conc" url="javahelp/stat/hytest/hytest_conclusion.html" />
     <mapID target="stat-reg" url="javahelp/stat/regression/index.html" />
     <mapID target="stat-reg-two-variables" url="javahelp/stat/regression/two_variables.html" />
+    <mapID target="stat-reg-two-variables-all-pairs" url="javahelp/stat/regression/correlation_matrix.html" />
     <mapID target="stat-reg-multiple-regression" url="javahelp/stat/regression/multiple_regression.html" />
     <mapID target="stat-reg-nonlinear" url="javahelp/stat/regression/nonlinear_models.html" />
     <mapID target="stat-multi" url="javahelp/stat/multinomial/index.html" />
@@ -153,6 +154,7 @@
     <mapID target="graph-piechart" url="javahelp/graph/piechart.html" />
     <mapID target="graph-scatterplot" url="javahelp/graph/scatterplot.html" />
     <mapID target="graph-stemplot" url="javahelp/graph/stemplot.html" />
+    <mapID target="graph-residual" url="javahelp/graph/residual.html" />
 
     <!-- help -->
     <mapID target="updates" url="javahelp/updates.html" />

@@ -55,7 +55,7 @@ public class AboutDialog extends StatcatoDialog {
         setTitle("About Statcato");
         setMinimumSize(new java.awt.Dimension(600, 400));
 
-        jLabel1.setText("<html> Copyright (C) 2009-2012 Margaret Yau and contributers. <br> <br> <b>Credits:</b> <br> Margaret Yau: Development lead. <br> Rudolph Esterhuysen: Localization bug fixes.  <br><br> This program comes with ABSOLUTELY NO WARRANTY. <br> This is a free software, and you are welcome to redistribute<br>  it under certain conditions.  For details, see the GNU General <br> Public License below.</html>");
+        jLabel1.setText("<html> Copyright (C) 2009-2014 Margaret Yau and contributers. <br> <br> <b>Credits:</b> <br> Margaret Yau: Development lead. <br> Rudolph Esterhuysen: Localization bug fixes.  <br><br> This program comes with ABSOLUTELY NO WARRANTY. <br> This is a free software, and you are welcome to redistribute<br>  it under certain conditions.  For details, see the GNU General <br> Public License below.</html>");
 
         LicTextArea.setColumns(20);
         LicTextArea.setRows(5);
